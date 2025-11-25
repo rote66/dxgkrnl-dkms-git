@@ -25,8 +25,8 @@ prepare(){
     git config core.sparsecheckout true
     git remote add --no-fetch --no-tags origin https://github.com/microsoft/WSL2-Linux-Kernel.git
     cp "$srcdir/sparse-checkout" .git/info/
-    git fetch --depth=1 --filter=blob:none origin linux-msft-wsl-6.1.y
-    git checkout linux-msft-wsl-6.1.y
+    git fetch --depth=1 --filter=blob:none origin linux-msft-wsl-6.6.y
+    git checkout linux-msft-wsl-6.6.y
 
     _wsl_kernel_commit=$(git rev-parse --short HEAD)
 
