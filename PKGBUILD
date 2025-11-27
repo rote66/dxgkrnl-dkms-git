@@ -23,10 +23,10 @@ prepare(){
     cd WSL2-Linux-Kernel-sparse
     git init
     git config core.sparsecheckout true
-    git remote add --no-fetch --no-tags origin https://github.com/microsoft/WSL2-Linux-Kernel.git
+    git remote add --no-fetch --no-tags origin https://github.com/Nevuly/WSL2-Linux-Kernel-Rolling
     cp "$srcdir/sparse-checkout" .git/info/
-    git fetch --depth=1 --filter=blob:none origin linux-msft-wsl-6.6.y
-    git checkout linux-msft-wsl-6.6.y
+    git fetch --depth=1 --filter=blob:none origin wsl-6.17-rolling
+    git checkout wsl-6.17-rolling
 
     _wsl_kernel_commit=$(git rev-parse --short HEAD)
 
@@ -40,7 +40,7 @@ prepare(){
     # Patch files for out of tree build
     sed -i 's/\$(CONFIG_DXGKRNL)/m/' "$srcdir/dxgkrnl-$_wsl_kernel_commit/Makefile"
     sed -i 's#linux/hyperv.h#linux/hyperv_dxgkrnl.h#' "$srcdir/dxgkrnl-$_wsl_kernel_commit/dxgmodule.c"
-    echo "EXTRA_CFLAGS=-I\$(PWD)/inc" >> "$srcdir/dxgkrnl-$_wsl_kernel_commit/Makefile"
+    echo "ccflags-y := -I\$(PWD)/inc" >> "$srcdir/dxgkrnl-$_wsl_kernel_commit/Makefile"
 
     # Generate dkms config
     cat > $srcdir/dxgkrnl-$_wsl_kernel_commit/dkms.conf <<EOF
@@ -50,9 +50,6 @@ BUILT_MODULE_NAME="dxgkrnl"
 DEST_MODULE_LOCATION="/kernel/drivers/hv/dxgkrnl/"
 AUTOINSTALL="yes"
 EOF
-
-    # Apply patches for current arch kernel
-    patch -u $srcdir/dxgkrnl-$_wsl_kernel_commit/dxgkrnl.h $srcdir/dxgkrnl.h.patch
 
 }
 
