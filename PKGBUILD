@@ -8,8 +8,8 @@ url="https://github.com/thexperiments/dxgkrnl-dkms-git"
 license=('GPL2')
 depends=('dkms')
 makedepends=('git')
-source=('sparse-checkout' 'dxgkrnl.h.patch')
-sha256sums=('45f223292bb19819ff2074d96f8111817afbe6423ddd47976d7085c1cabb0572' 'b77aea6da2f8223b4dd847fe569c34275fce04a87140f95b3d7317596f812699')
+source=('sparse-checkout')
+sha256sums=('45f223292bb19819ff2074d96f8111817afbe6423ddd47976d7085c1cabb0572')
 install=dxgkrnl.install
 
 prepare(){
@@ -25,8 +25,8 @@ prepare(){
     git config core.sparsecheckout true
     git remote add --no-fetch --no-tags origin https://github.com/Nevuly/WSL2-Linux-Kernel-Rolling
     cp "$srcdir/sparse-checkout" .git/info/
-    git fetch --depth=1 --filter=blob:none origin wsl-6.17-rolling
-    git checkout wsl-6.17-rolling
+    git fetch --depth=1 --filter=blob:none origin wsl-6.17-rolling-eol
+    git checkout wsl-6.17-rolling-eol
 
     _wsl_kernel_commit=$(git rev-parse --short HEAD)
 
